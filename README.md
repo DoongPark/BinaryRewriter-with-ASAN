@@ -1,4 +1,4 @@
-<img width="566" alt="스크린샷 2023-12-06 02 56 30" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/0758ac8d-f5cb-4c87-91ad-c88352a59d1c"># BinaryRewriter
+# BinaryRewriter
 **BinaryRewriter**는 ARM 32-bit ELF 파일을 대상으로 파일의 바이너리를 조작할 수 있도록 도움을 주는 파이썬 소프트웨어입니다.<br>
 파이썬 모듈을 사용하는 것과 동일하게 import하여 사용할 수 있으며 다른 파일로부터 함수를 추출하여 삽입, 함수 콜을 후킹하는 등의 기능을 수행할 수 있습니다.<br>
 본 프로젝트에서는 ASAN의 적용을 위해 사용되었지만 ARM 32-bit 환경의 ELF 파일이라면 어디든지 적용될 수 있습니다.
@@ -76,8 +76,8 @@ asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서
 [test_hooking.py](test/test_hooking.py)
 
 <img width="323" alt="스크린샷 2023-12-06 03 10 45" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/6c258567-4169-4eaf-9df1-a44eb4c331c3"><br>
-<img width="470" alt="스크린샷 2023-12-06 02 51 15" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/c193c33b-8b82-4439-aa90-7ed4d9a3883f">
-<img width="470" alt="스크린샷 2023-12-06 02 56 30" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/55cf4912-aff4-4e58-8dbe-d04a6255d4c2">
+<img width="460" alt="스크린샷 2023-12-06 02 51 15" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/c193c33b-8b82-4439-aa90-7ed4d9a3883f">
+<img width="460" alt="스크린샷 2023-12-06 02 56 30" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/55cf4912-aff4-4e58-8dbe-d04a6255d4c2">
 
 - 좌 : 패치 전, 기존 malloc을 실행하는 모습
 - 우 : 패치 후, function call을 후킹하여 앞서 패치했던 asan_malloc의 주소로 이동시키는 모습
