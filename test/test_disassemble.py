@@ -15,8 +15,8 @@ original = source.disassemble_from_address(original_address, original_size)
 patched = binary.disassemble_from_address(patched_address, patched_size)
 
 for ori, patch in zip(original, patched):
-    print(f"{ori.address}: {ori.mnemonic} {ori.op_str}")
-    print(f"{patch.address}: {patch.mnemonic} {patch.op_str}")
+    print(f"{hex(ori.address)}: {ori.mnemonic} {ori.op_str}")
+    print(f"{hex(patch.address)}: {patch.mnemonic} {patch.op_str}")
 
     if (ori.mnemonic == 'bl') & (ori.op_str != patch.op_str):
         hex_part = ori.op_str[3:]
