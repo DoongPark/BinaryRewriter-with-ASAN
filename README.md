@@ -47,9 +47,10 @@ asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서
 ## 동작
 > 다음 과정들은 특정 ARM 32-bit ELF 파일에서 `malloc`을 호출하는 부분을 `asan` 파일 내의 함수인 `asan_malloc`으로 패치해주는 과정입니다.
 
-공통사항
+**공통사항**
 - `source` : 함수 추출 대상 바이너리 파일, `binary` : 패치 대상 바이너리 파일 경로 입력
 - `function_name`, `old_function_call`과 같은 변수값만 변경하여 원하는 함수 패치 가능
+- [asan](ASAN/asan)은 [asan.c](ASAN/asan.c)가 **statically linked** 되어 컴파일된 ELF 실행 파일로 dynamically linked 된 파일을 사용할 경우 malloc과 같은 함수의 call을 찾는데 있어 문제 발생의 여지가 있음
 
 [test_patcy.py](test/test_patch.py)
 
