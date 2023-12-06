@@ -45,12 +45,14 @@ asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서
 
 
 ## 동작
-> 다음 과정들은 특정 ARM 32-bit ELF 파일에서 `malloc`을 호출하는 부분을 `asan` 파일 내의 함수인 `asan_malloc`으로 패치해주는 과정입니다.
+- patcher.py와 reassembler.py를 import하여 원하는 함수를 적절하게 이용하여 패치를 진행할 수 있습니다.<br>
+- [test](test/) 폴더 내의 `.py` 파일들이 이를 이용하여 패치를 진행하는 예시 코드들입니다.
 
-**공통사항**
+### ASAN을 이용한 동작 예시
+> 다음 과정들은 특정 ARM 32-bit ELF 파일에서 `malloc`을 호출하는 부분을 `asan` 파일 내의 함수인 `asan_malloc`으로 패치해주는 과정입니다.
+- [asan](ASAN/asan)은 [asan.c](ASAN/asan.c)가 **statically linked** 되어 컴파일된 ELF 실행 파일로 dynamically linked 된 파일을 사용할 경우 malloc과 같은 함수의 call을 찾는데 있어 문제 발생의 여지가 있습니다.
 - `source` : 함수 추출 대상 바이너리 파일, `binary` : 패치 대상 바이너리 파일 경로 입력
 - `function_name`, `old_function_call`과 같은 변수값만 변경하여 원하는 함수 패치 가능
-- [asan](ASAN/asan)은 [asan.c](ASAN/asan.c)가 **statically linked** 되어 컴파일된 ELF 실행 파일로 dynamically linked 된 파일을 사용할 경우 malloc과 같은 함수의 call을 찾는데 있어 문제 발생의 여지가 있음
 
 [test_patcy.py](test/test_patch.py)
 
@@ -85,8 +87,8 @@ asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서
 - malloc의 주소와 offset 계산을 통해 malloc을 호출하는 부분이라고 찾으면 asan_malloc의 주소와 offset을 계산하여 해당 부분 수정
 
 ## Reference
-[LIEF Documentation](https://lief-project.github.io/)
+[LIEF Documentation](https://lief-project.github.io/)<br>
 [Capstone](http://www.capstone-engine.org)
 
 ## License
-본 프로젝트는 MIT 라이선스를 따릅니다 - [LICENSE](LICENSE)
+본 프로젝트는 MIT 라이선스를 따릅니다 - 자세한 내용은 [LICENSE](LICENSE)를 참고해주세요.
