@@ -34,14 +34,14 @@ $ ./test
 asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서 redzone도 같이 할당하며 asan_check 함수로 heap overflow 여부를 체크합니다.
 
 ## 파일 구성
-[patcher.py](patchery.py)
+### [patcher.py](patchery.py)
 - 바이너리 로드, 저장
 - ARM 32-bit ELF 파일 여부 검사
 - 함수의 이름 입력을 통한 함수의 주소 검색, 함수의 주소 입력을 통한 함수의 이름 검색, 함수 심볼 검색
 - bytes 입력을 통한 수동 패치, 이름이 주어진 함수의 바이너리 추출 -> 새로운 섹션을 만들어 삽입 + 함수 심볼 추가 가능
     - 여러개 함수의 다중 패치 가능
 
-[reassembler.py](reassembler.py)
+### [reassembler.py](reassembler.py)
 - 주어진 주소로부터 disassemble
 - Assembly의 bl 명령(ARM의 점프 명령)을 찾아 함수 실행(function call) 변경
     - .text 섹션(함수 섹션) 전역을 탐색하여 일괄 변경 가능
@@ -56,9 +56,8 @@ asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서
 - [asan](ASAN/asan)은 [asan.c](ASAN/asan.c)가 **statically linked** 되어 컴파일된 ELF 실행 파일로 dynamically linked 된 파일을 사용할 경우 malloc과 같은 함수의 call을 찾는데 있어 문제 발생의 여지가 있습니다.
 - `source` : 함수 추출 대상 바이너리 파일, `binary` : 패치 대상 바이너리 파일 경로 입력
 - `function_name`, `old_function_call`과 같은 변수값만 변경하여 원하는 함수 패치 가능
-<br>
 
-[test_patcy.py](test/test_patch.py)
+### [test_patcy.py](test/test_patch.py)
 
 <img width="518" alt="스크린샷 2023-12-07 09 38 07" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/c6e51819-02e9-43ae-80e2-324290d9e94d">
 <img width="577" alt="스크린샷 2023-12-07 09 38 18" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/d0bde075-1532-499c-a9aa-219a526239da">
@@ -76,9 +75,8 @@ asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서
 
 - 추가된 섹션에 asan_malloc, asan_check, heap_to_shadow 함수 패치가 진행된 모습
 - 하지만 relative offset으로 점프를 수행하는 bl 명령 특성상 asan_malloc 내에서 malloc, memset과 같은 함수들을 호출하는 부분이 꼬임
-<br>
 
-[test_disassemble.py](test/test_disassemble.py)
+### [test_disassemble.py](test/test_disassemble.py)
 
 <img width="335" alt="스크린샷 2023-12-06 03 09 17" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/d86ab992-3465-4901-b944-3148cbf95128">
 
@@ -89,9 +87,8 @@ asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서
 <img width="600" alt="스크린샷 2023-12-06 02 47 03" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/109cf062-3d4d-4052-a5e5-2822b16ef1d8">
 
 - test_patch.py만을 실행했을 때와 달리, bl malloc이 정상적으로 수행되는 모습
-<br>
 
-[test_hooking.py](test/test_hooking.py)
+### [test_hooking.py](test/test_hooking.py)
 
 <img width="323" alt="스크린샷 2023-12-06 03 10 45" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/6c258567-4169-4eaf-9df1-a44eb4c331c3">
 
