@@ -33,7 +33,7 @@ $ ./test
 - asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서 redzone도 같이 할당하며 asan_check 함수로 heap overflow 여부를 체크합니다.
 
 ## 파일 구성
-### [patcher.py](binaryrewriter/patchery.py)
+### [patcher.py](binaryrewriter/patcher.py)
 - 바이너리 로드, 저장
 - ARM 32-bit ELF 파일 여부 검사
 - 함수의 이름 입력을 통한 함수의 주소 검색, 함수의 주소 입력을 통한 함수의 이름 검색, 함수 심볼 검색
