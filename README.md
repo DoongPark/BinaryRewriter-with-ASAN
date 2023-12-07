@@ -4,8 +4,7 @@
 본 프로젝트에서는 ASAN의 적용을 위해 사용되었지만 ARM 32-bit 환경의 ELF 파일이라면 어디든지 적용될 수 있습니다.<br>
 <br>
 **왜 ARM 32-bit인가?** <br>
-ARM 32-bit는 IoT 기기의 임베디드 펌웨어로 많이 사용되는 아키텍처입니다.<br>
-해당 Binary Rewriter는 IoT 기기 펌웨어의 취약점을 찾고 패치하는데 있어 유용하게 사용할 수 있습니다.
+ARM 32-bit는 IoT 기기의 임베디드 펌웨어로 많이 사용되는 아키텍처입니다. 해당 Binary Rewriter는 IoT 기기 펌웨어의 취약점을 찾고 패치하는데 있어 유용하게 사용할 수 있습니다.
 
 ### Address Sanitizer (ASAN)
 **Address Sanitizer**는 메모리 버그와 관련된 프로그램 오류를 식별하고 디버깅하는 데 도움을 주는 분석도구이며 C 및 C++ 프로그래밍 언어로 작성된 프로그램에서 발생하는 메모리 오류를 검출하는데 사용됩니다.
@@ -30,8 +29,8 @@ $ gcc -fno-stack-protector -o test test.c
 $ ./test
 42
 ```
-본 ASAN은 array 전후로 redzone을 두고, redzone에 접근하려고 하면 에러를 내는 방식으로 **heap overflow**를 검출하도록 설계되었습니다.<br>
-asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서 redzone도 같이 할당하며 asan_check 함수로 heap overflow 여부를 체크합니다.
+- 본 ASAN은 array 전후로 redzone을 두고, redzone에 접근하려고 하면 에러를 내는 방식으로 **heap overflow**를 검출하도록 설계되었습니다.
+- asan_malloc 함수는 일반 malloc과는 다르게 메모리를 할당하면서 redzone도 같이 할당하며 asan_check 함수로 heap overflow 여부를 체크합니다.
 
 ## 파일 구성
 ### [patcher.py](patchery.py)
