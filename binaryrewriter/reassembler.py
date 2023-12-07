@@ -1,6 +1,6 @@
 import os
 from capstone import *
-from patcher import Patcher
+from binaryrewriter.patcher import Patcher
 
 
 class Reassembler(Patcher):

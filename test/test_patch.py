@@ -1,8 +1,7 @@
-from patcher import Patcher
-
+from binaryrewriter.patcher import Patcher
 
 # 함수 추출 대상 바이너리 파일
-source = Patcher("asan")
+source = Patcher("{filepath}")
 # 수정 대상 바이너리 파일
 binary = Patcher("{filepath}")
 

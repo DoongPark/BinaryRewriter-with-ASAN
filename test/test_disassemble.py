@@ -1,6 +1,8 @@
-from reassembler import Reassembler
+from binaryrewriter.reassembler import Reassembler
 
-source = Reassembler("asan")
+# 함수 추출 대상 바이너리 파일
+source = Reassembler("{filepath}")
+# 수정 대상 바이너리 파일
 binary = Reassembler("{filepath}")
 
 # 수정 대상 함수 이름

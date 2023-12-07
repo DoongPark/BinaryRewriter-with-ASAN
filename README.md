@@ -40,7 +40,7 @@ $ ./test
 - bytes 입력을 통한 수동 패치, 이름이 주어진 함수의 바이너리 추출 -> 새로운 섹션을 만들어 삽입 + 함수 심볼 추가 가능
     - 여러개 함수의 다중 패치 가능
 
-### [reassembler.py](reassembler.py)
+### [reassembler.py](binaryrewriter/reassembler.py)
 - 주어진 주소로부터 disassemble
 - Assembly의 bl 명령(ARM의 점프 명령)을 찾아 함수 실행(function call) 변경
     - .text 섹션(함수 섹션) 전역을 탐색하여 일괄 변경 가능
@@ -52,7 +52,7 @@ $ ./test
 
 ### ASAN을 이용한 동작 예시
 > 다음 과정들은 특정 ARM 32-bit ELF 파일에서 `malloc`을 호출하는 부분을 `asan` 파일 내의 함수인 `asan_malloc`으로 패치해주는 과정입니다.
-- [asan](ASAN/asan)은 [asan.c](ASAN/asan.c)가 **statically linked** 되어 컴파일된 ELF 실행 파일로 dynamically linked 된 파일을 사용할 경우 malloc과 같은 함수의 call을 찾는데 있어 문제 발생의 여지가 있습니다.
+- [asan](asan/asan)은 [asan.c](asan/asan.c)가 **statically linked** 되어 컴파일된 ELF 실행 파일로 dynamically linked 된 파일을 사용할 경우 malloc과 같은 함수의 call을 찾는데 있어 문제 발생의 여지가 있습니다.
 - `source` : 함수 추출 대상 바이너리 파일, `binary` : 패치 대상 바이너리 파일 경로 입력
 - `function_name`, `old_function_call`과 같은 변수값만 변경하여 원하는 함수 패치 가능
 
