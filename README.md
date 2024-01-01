@@ -81,7 +81,7 @@ access a[13]
 - `source` : 함수 추출 대상 바이너리 파일, `binary` : 패치 대상 바이너리 파일 경로 입력
 - `function_name`, `old_function_call`과 같은 변수값만 변경하여 원하는 함수 패치 가능
 
-### [test_patcy.py](test/test_patch.py)
+### [patcy.py](test/patch.py)
 
 <img width="518" alt="스크린샷 2023-12-07 09 38 07" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/c6e51819-02e9-43ae-80e2-324290d9e94d">
 <img width="577" alt="스크린샷 2023-12-07 09 38 18" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/d0bde075-1532-499c-a9aa-219a526239da">
@@ -101,7 +101,7 @@ access a[13]
 - relative offset으로 점프를 수행하는 BL 명령 특성상 asan_malloc 내에서 malloc, memset과 같은 함수들을 호출하는 부분에서 문제가 발생
 - 따라서 새로운 함수 삽입 시, 해당 함수 내부에서 다른 함수를 call 하는 부분에 대해 추가 패치 필요
 
-### [test_disassemble.py](test/test_disassemble.py)
+### [modify_offset.py](test/modify_offset.py)
 
 <img width="335" alt="스크린샷 2023-12-06 03 09 17" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/d86ab992-3465-4901-b944-3148cbf95128">
 
@@ -113,7 +113,7 @@ access a[13]
 
 - test_patch.py만을 실행했을 때와 달리, BL malloc이 정상적으로 수행되는 모습
 
-### [test_hooking.py](test/test_hooking.py)
+### [hook_function_call.py](test/hook_function_call.py)
 
 <img width="323" alt="스크린샷 2023-12-06 03 10 45" src="https://github.com/DoongPark/BinaryRewriter-with-ASAN/assets/77007815/6c258567-4169-4eaf-9df1-a44eb4c331c3">
 
