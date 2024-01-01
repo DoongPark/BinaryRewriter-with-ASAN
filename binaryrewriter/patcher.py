@@ -1,4 +1,5 @@
 import lief
+import os
 
 
 class Patcher():
@@ -31,7 +32,7 @@ class Patcher():
 
     def save_binary(self, new_filepath=None):
         if new_filepath is None:
-            new_filepath = self.filepath + "_modified"
+            new_filepath = self.filepath + "_mod"
         self.binary.write(new_filepath)
         print("Modified file saved to:", new_filepath)
 
@@ -81,6 +82,8 @@ class Patcher():
         new_section = lief.ELF.Section(f".{section_name}")
         new_section.type = lief.ELF.SECTION_TYPES.PROGBITS
         new_section.flags = lief.ELF.SECTION_FLAGS.ALLOC | lief.ELF.SECTION_FLAGS.EXECINSTR
+        new_section.alignment = 0x10
+        new_section.virtual_address = 0x700000
 
         # 섹션 내용 준비
         section_content = bytearray()
@@ -89,10 +92,18 @@ class Patcher():
 
         new_section.content = list(section_content)
 
+        shadow_section = lief.ELF.Section(".shadow")
+        shadow_section.virtual_address = 0x20000000
+        shadow_section.size = 0xA00000
+        shadow_section.type = lief.ELF.SECTION_TYPES.PROGBITS
+        shadow_section.flags = lief.ELF.SECTION_FLAGS.ALLOC | lief.ELF.SECTION_FLAGS.WRITE
+        shadow_section.content = memoryview(b'0' * shadow_section.size)
+
         # 새 섹션을 바이너리에 추가
         self.binary.add(new_section)
+        self.binary.add(shadow_section)
         self.save_binary()
-        self.binary = lief.parse(self.filepath + "_modified")
+        self.binary = lief.parse(self.filepath + "_mod")
 
         # .text 섹션을 새로 추가했으므로 두번째 .text 섹션을 찾음
         text_sections = [section for section in self.binary.sections if section.name == ".text"]
@@ -122,3 +133,29 @@ class Patcher():
     def print_symbol(self):
         for symbol in self.binary.symbols:
             print(symbol)
+
+    def calculate_file_offset(self, virtual_address):
+        # 가상 주소가 속한 섹션 또는 세그먼트 찾기
+        for segment in self.binary.segments:
+            if segment.virtual_address <= virtual_address < segment.virtual_address + segment.physical_size:
+                # 가상 주소에 해당하는 파일 오프셋 계산
+                offset_in_segment = virtual_address - segment.virtual_address
+                return segment.file_offset + offset_in_segment
+
+        raise ValueError("주어진 가상 주소에 해당하는 세그먼트를 찾을 수 없습니다.")
+
+    def extract_bytes(self, src_address, num_bytes):
+        src_offset = self.calculate_file_offset(src_address)
+        with open(self.filepath, 'rb') as f:
+            # 파일에서 원하는 주소에서 바이트 읽기
+            f.seek(src_offset)
+            src_bytes = f.read(num_bytes)
+
+        return src_bytes
+
+    def insert_bytes(self, dest_address, src_bytes):
+        dest_offset = self.calculate_file_offset(dest_address)
+        with open(self.filepath+"_mod", 'r+b') as f:
+            # 파일에서 원하는 주소에 바이트 붙여넣기
+            f.seek(dest_offset)
+            f.write(src_bytes)
